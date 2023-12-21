@@ -1,0 +1,39 @@
+1、navicat中沒有可视化添加约束的选项，所以只能用代码添加。
+直接新建查询，然后用代码添加。
+alter table specification
+add constraint ck_stock check(stock>=0)
+其中，specification是我的表名，换成自己的表名字就行
+ck_stock：为这一约束起的名字，自己定义即可
+stock>=0：stock是我要保证≥0的那个字段名
+ 删除约束：
+use testss;  --使用的数据库名
+go
+--判断是否存在约束，如果存在则删除，如果不存在则不
+if exists(select * from sysobjects where name='default1')
+alter table test1 drop constraint default1;
+go
+
+
+2、JDBC Resultset.getxxx()方法获取日期时间型的几种方法
+resultSet.getDate();  时间格式为：2021-01-07
+resultSet.getTime();   时间格式为：22:08:09
+resultSet.getTimestamp(); 时间格式为：2021-01-07 23:08:09
+Date orferTime = resultSet.getTimestamp("time");
+
+3、You can't specify target table for update in FROM clause错误的意思是说，不能先select出同一表中的某些值，再update这个表(在同一语句中)
+
+4、SQL怎么实现我要更改一个表的最后一条记录?
+update m_shpp set time=? where  1 ORDER BY id DESC LIMIT 1；
+删除第一条记录
+delete from userinfo where 1 order by userid limit 1
+
+5、MySQL排序查询
+select giftid,giftName,price from y_shop order by price asc/desc升降序
+
+6、修改字段名称或字段类型
+mysql> alter table 数据表名称 change 旧字段名 新字段名 类型;
+仅修改字段的类型
+mysql> alter table 数据表名称 modify 字段名 类型;
+删除某个字段
+mysql> alter table 数据表名称 drop 字段名称;
+
