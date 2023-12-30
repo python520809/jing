@@ -1,0 +1,41 @@
+1.CRUD
+2.<insert id="insertCar">
+          insert into t_car(id,car_num,brand)
+          values(null,#{k1},#{k2});
+      </insert>
+Map<String,Object>map=new HashMap<>();
+        map.put("k1","1111");
+        map.put("k2","比亚迪");
+        int count=sqlSession.insert("insertCar",map);
+3.pojo
+建议使用封装类，防止null问题
+#{}写的是get方法名去掉get,剩下单词的小写(多个)
+4.delete
+<delete id="deleteId">
+        delete from t_car where id=#{sdf};//一个占位符，可以随便写，但不能为空，最好见名知意
+    </delete>
+4.update
+<update id="updateId">
+        update t_car set car_num=#{carNum},brand=#{brand} where id=#{id};
+    </update>
+Car car=new Car(4L,"0008","泵车");
+            sqlSession.update("updateId",car);
+5.select
+<select id="selectId" resultType="pojo.Car">
+        select * from t_car where id = #{id};
+    </select>
+Object car=sqlSession.selectOne("selectId",1);
+        System.out.println(car);
+resultType 用来告诉mybatis ，查询结果集封装成什么类型的java对象
+namespace防止id重复
+6.<environments default="development">默认环境
+<transactionManager type="JDBC"/>配置事务管理器
+数据源<dataSource type="POOLED">提供connection
+UNPOOLED不使用数据库连接池技术，每一次请求后都是创建新的connection对象，效率低
+POOLED使用mybatis自己实现的数据库连接池
+JNDI集成其他第三方的数据库连接池
+<property name="poolMaximumActiveConnections" value="3"/>
+最大连接数量
+<property name="poolTimeToWait" value="2000"/>
+每隔俩秒打印日志
+
